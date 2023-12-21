@@ -15,6 +15,50 @@ Datasets:   https://github.com/ultralytics/yolov5/tree/master/data
 Tutorial:   https://docs.ultralytics.com/yolov5/tutorials/train_custom_data
 """
 
+import subprocess
+import re
+
+
+def find_available_gpu(min_memory_fraction=0.8):
+    try:
+
+        result = subprocess.run(['nvidia-smi', '--query-gpu=memory.free,memory.total', '--format=csv,noheader,nounits'],
+                                stdout=subprocess.PIPE)
+        gpu_info = result.stdout.decode('utf-8')
+
+        gpu_list = gpu_info.strip().split('\n')
+        available_gpus = []
+        for i, info in enumerate(gpu_list):
+            memory_free, memory_total = map(int, info.split(','))
+            if memory_free / memory_total > min_memory_fraction:
+                available_gpus.append({
+                    'id': i,
+                    'memory_free': memory_free,
+                    'memory_total': memory_total
+                })
+
+        return available_gpus
+
+    except Exception as e:
+        print(f"Error while getting GPU information: {e}")
+        return None
+
+
+available_gpus = find_available_gpu(min_memory_fraction=0.8)
+
+if available_gpus:
+    print("Available GPUs with more than 80% free memory:")
+    for gpu in available_gpus:
+        print(f"GPU {gpu['id']}, Free Memory: {gpu['memory_free']} MB / {gpu['memory_total']} MB")
+
+else:
+    print("No available GPUs found.")
+
+available_gpus_id_list = [gpu['id'] for gpu in available_gpus]
+available_gpus_id = ','.join(map(str, available_gpus_id_list))
+available_gpus_id_len = len(available_gpus_id_list)
+print(available_gpus_id_len)
+
 import argparse
 import math
 import os
@@ -458,7 +502,7 @@ def parse_opt(known=False):
     parser.add_argument('--bucket', type=str, default='', help='gsutil bucket')
     parser.add_argument('--cache', type=str, nargs='?', const='ram', help='image --cache ram/disk')
     parser.add_argument('--image-weights', action='store_true', help='use weighted image selection for training')
-    parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    parser.add_argument('--device', default=available_gpus_id, help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--multi-scale', action='store_true', help='vary img-size +/- 50%%')
     parser.add_argument('--single-cls', action='store_true', help='train multi-class data as single-class')
     parser.add_argument('--optimizer', type=str, choices=['SGD', 'Adam', 'AdamW'], default='SGD', help='optimizer')
