@@ -1,0 +1,17 @@
+train: /kaggle/input/dataset-ori/Dataset-原始/train
+val: /kaggle/input/dataset-ori/Dataset-原始/train
+test: /kaggle/input/dataset-ori/Dataset-原始/val
+
+nc: 8
+
+# class names
+names: [
+'linecare_xk',
+'detect_xk',
+'linecare_fhxk',
+'detect_fhxk',
+'linecare_dj',
+'detect3_dj',
+'noise1',
+'noise2'
+]
