@@ -45,7 +45,7 @@ def find_available_gpu(min_memory_fraction=0.8):
 
 available_gpus = find_available_gpu(min_memory_fraction=0.8)
 
-if available_gpus:
+if available_gpus!='cpu':
     print("Available GPUs with more than 80% free memory:")
     for gpu in available_gpus:
         print(f"GPU {gpu['id']}, Free Memory: {gpu['memory_free']} MB / {gpu['memory_total']} MB")
