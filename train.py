@@ -16,7 +16,6 @@ Tutorial:   https://docs.ultralytics.com/yolov5/tutorials/train_custom_data
 """
 
 import subprocess
-import re
 
 
 def find_available_gpu(min_memory_fraction=0.8):
@@ -41,7 +40,7 @@ def find_available_gpu(min_memory_fraction=0.8):
 
     except Exception as e:
         print(f"Error while getting GPU information: {e}")
-        return None
+        return 'cpu'
 
 
 available_gpus = find_available_gpu(min_memory_fraction=0.8)
