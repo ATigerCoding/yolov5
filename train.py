@@ -49,14 +49,14 @@ if available_gpus:
     print("Available GPUs with more than 80% free memory:")
     for gpu in available_gpus:
         print(f"GPU {gpu['id']}, Free Memory: {gpu['memory_free']} MB / {gpu['memory_total']} MB")
-
+    available_gpus_id_list = [gpu['id'] for gpu in available_gpus]
+    available_gpus_id = ','.join(map(str, available_gpus_id_list))
+    available_gpus_id_len = len(available_gpus_id_list)
+    print(available_gpus_id_len)
 else:
     print("No available GPUs found.")
 
-available_gpus_id_list = [gpu['id'] for gpu in available_gpus]
-available_gpus_id = ','.join(map(str, available_gpus_id_list))
-available_gpus_id_len = len(available_gpus_id_list)
-print(available_gpus_id_len)
+
 
 import argparse
 import math
