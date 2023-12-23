@@ -245,7 +245,7 @@ def run(
                         cv2.waitKey(1)  # 1 millisecond
 
                     # Save results (image with detections)
-                    if save_img:
+                    if save_img and (1 in det[:, 5] or 3 in det[:, 5] or 5 in det[:, 5] or 7 in det[:, 5]):
                         if dataset.mode == 'image':
                             cv2.imwrite(save_path, im0)
                         else:  # 'video' or 'stream'
