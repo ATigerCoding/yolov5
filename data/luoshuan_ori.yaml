@@ -1,6 +1,5 @@
-train: /kaggle/input/dataset-ori/Dataset-原始/train
-val: /kaggle/input/dataset-ori/Dataset-原始/train
-test: /kaggle/input/dataset-ori/Dataset-原始/val
+train: /kaggle/input/dataset-1223-fei
+val: /kaggle/input/dataset-1223-fei
 
 nc: 8
 
